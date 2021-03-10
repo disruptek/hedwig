@@ -225,11 +225,10 @@ defmodule Hedwig.Responder do
       defp find_matches(regex, text) do
         case Regex.names(regex) do
           []  ->
-            matches = Regex.run(regex, text)
-            #matches = Regex.run(regex, text)
-            #Enum.reduce(Enum.with_index(matches), %{}, fn {match, index}, acc ->
-            #  Map.put(acc, index, match)
-            #end)
+            matches = Regex.scan(regex, text)
+            Enum.reduce(Enum.with_index(matches), %{}, fn {match, index}, acc ->
+              Map.put(acc, index, match)
+            end)
           _ ->
             Regex.named_captures(regex, text)
         end
